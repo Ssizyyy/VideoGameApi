@@ -65,9 +65,17 @@ namespace VideoGameApi.Controllers
                 newGame);
         }
         [HttpPut("{id}")]
-        public ActionResult UpdateVideoGame(int id ,VideoGame newGame)
+        public IActionResult UpdateVideoGame(int id ,VideoGame updatedGame)
         {
+            var game = videoGames.FirstOrDefault(g => g.Id == id);
+            if (game is null)
+                return NotFound();
+            game.Title = updatedGame.Title;
+            game.Platform = updatedGame.Platform;
+            game.Developer = updatedGame.Developer;
+            game.Publisher = updatedGame.Publisher;
 
+            return NoContent();
         }
 
     }

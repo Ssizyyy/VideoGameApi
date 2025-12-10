@@ -40,7 +40,7 @@
               "RelativeDocumentMoniker": "VideoGameApi\\Controllers\\VideoGameController.cs",
               "ToolTip": "F:\\Programming\\VideoGameApi\\VideoGameApi\\Controllers\\VideoGameController.cs",
               "RelativeToolTip": "VideoGameApi\\Controllers\\VideoGameController.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAAqwDMAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAwwE0AAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-07T17:05:16.742Z",
               "EditorCaption": ""
@@ -53,10 +53,9 @@
               "RelativeDocumentMoniker": "VideoGameApi\\VideoGame.cs",
               "ToolTip": "F:\\Programming\\VideoGameApi\\VideoGameApi\\VideoGame.cs",
               "RelativeToolTip": "VideoGameApi\\VideoGame.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-07T16:56:17.234Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-07T16:56:17.234Z"
             },
             {
               "$type": "Document",
@@ -68,8 +67,7 @@
               "RelativeToolTip": "VideoGameApi\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-02T13:41:02.537Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-02T13:41:02.537Z"
             },
             {
               "$type": "Document",
@@ -81,8 +79,7 @@
               "RelativeToolTip": "VideoGameApi\\VideoGameApi.http",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
-              "WhenOpened": "2025-12-02T12:25:32.907Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-02T12:25:32.907Z"
             }
           ]
         }

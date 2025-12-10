@@ -33,3 +33,4 @@ F:\Programming\VideoGameApi\VideoGameApi\obj\Debug\net10.0\VideoGameApi.pdb
 F:\Programming\VideoGameApi\VideoGameApi\obj\Debug\net10.0\VideoGameApi.genruntimeconfig.cache
 F:\Programming\VideoGameApi\VideoGameApi\obj\Debug\net10.0\ref\VideoGameApi.dll
 F:\Programming\VideoGameApi\VideoGameApi\bin\Debug\net10.0\Scalar.AspNetCore.dll
+F:\Programming\VideoGameApi\VideoGameApi\obj\Debug\net10.0\VideoGameApi.sourcelink.json
