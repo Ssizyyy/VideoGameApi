@@ -19,3 +19,5 @@ bld
 
 # Visual Studio temporary files
 .vs
+**/obj/
+**/bin/

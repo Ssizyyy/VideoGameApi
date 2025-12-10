@@ -37,6 +37,10 @@
           "SelectedChildIndex": 3,
           "Children": [
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 5,
               "Title": "appsettings.json",
@@ -46,12 +50,7 @@
               "RelativeToolTip": "VideoGameApi\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-12-10T18:46:38.193Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+              "WhenOpened": "2025-12-10T18:46:38.193Z"
             },
             {
               "$type": "Document",
@@ -63,8 +62,7 @@
               "RelativeToolTip": "VideoGameApi\\Data\\VideoGameDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-10T16:08:56.06Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-10T16:08:56.06Z"
             },
             {
               "$type": "Document",
@@ -74,7 +72,7 @@
               "RelativeDocumentMoniker": "VideoGameApi\\Controllers\\VideoGameController.cs",
               "ToolTip": "F:\\Programming\\VideoGameApi\\VideoGameApi\\Controllers\\VideoGameController.cs",
               "RelativeToolTip": "VideoGameApi\\Controllers\\VideoGameController.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAAAA0AAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAqwA0AAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-07T17:05:16.742Z",
               "EditorCaption": ""
@@ -89,8 +87,7 @@
               "RelativeToolTip": "VideoGameApi\\VideoGame.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-07T16:56:17.234Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-07T16:56:17.234Z"
             },
             {
               "$type": "Document",
@@ -102,8 +99,7 @@
               "RelativeToolTip": "VideoGameApi\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-02T13:41:02.537Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-02T13:41:02.537Z"
             },
             {
               "$type": "Document",
@@ -115,8 +111,7 @@
               "RelativeToolTip": "VideoGameApi\\VideoGameApi.http",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
-              "WhenOpened": "2025-12-02T12:25:32.907Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-02T12:25:32.907Z"
             }
           ]
         }
