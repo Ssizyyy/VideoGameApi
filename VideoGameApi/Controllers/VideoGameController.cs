@@ -13,21 +13,61 @@ namespace VideoGameApi.Controllers
     public class VideoGameController(VideoGameDbContext context) : ControllerBase
     {
         private readonly VideoGameDbContext _context = context;
+
+
         [HttpGet]
         public async Task<ActionResult<List<VideoGame>>> GetVideoGames()
         {
-            return Ok(await _context.VideoGames.Include(g => g.Characters).ToListAsync());
+            var games = await _context.VideoGames
+                .Include(g => g.Characters)
+                .Select(g => new VideoGameResponseDto
+                {
+                    Id = g.Id,
+                    Title = g.Title,
+                    Developer = g.Developer,
+                    Platform = g.Platform,
+                    Publisher = g.Publisher,
+                    Characters = g.Characters.Select(c => new CharacterResponseDto
+                    {
+                        Id = c.Id,
+                        Name = c.Name,
+                        Role = c.Role.ToString(),
+                        VideoGameId = c.VideoGameId
+                    }).ToList()
+                }).ToListAsync();
+            return Ok(games);
         }
+
+
         [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult<VideoGame>> GetVideoGameById(int id)
         {
-            var game = await _context.VideoGames.FindAsync(id);
+            var game = await _context.VideoGames
+                .Include(g=>g.Characters)
+                .FirstOrDefaultAsync(g=> g.Id == id);
             if (game is null)
             {
                 return NotFound();
             }
-            return Ok(game);
+
+            var responseDto = new VideoGameResponseDto
+            {
+                Id = game.Id,
+                Title = game.Title,
+                Developer = game.Developer,
+                Platform = game.Platform,
+                Publisher = game.Publisher,
+                Characters = game.Characters.Select(c => new CharacterResponseDto
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Role = c.Role.ToString(),
+                    VideoGameId = c.VideoGameId
+                }).ToList()
+            };
+
+            return Ok(responseDto);
         }
         [HttpPost]
         public async Task<ActionResult> AddVideoGame(VideoGameCreateUpdateDto request)
@@ -42,13 +82,24 @@ namespace VideoGameApi.Controllers
                 Platform = request.Platform,
                 Publisher = request.Publisher
             };
+
+            var requestDto = new VideoGameResponseDto
+            {
+                Id = newGame.Id,
+                Title = newGame.Title,
+                Developer = newGame.Developer,
+                Platform = newGame.Platform,
+                Publisher = newGame.Publisher,
+
+            };
+
             _context.VideoGames.Add(newGame);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(
                 nameof(GetVideoGameById),
                 new { id = newGame.Id },
-                newGame);
+                requestDto);
         }
 
         [HttpPut("{id}")]
