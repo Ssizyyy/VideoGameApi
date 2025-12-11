@@ -64,7 +64,7 @@ namespace VideoGameApi.Controllers
         {
             var game = await _context.VideoGames.FindAsync(request.VideoGameId);
             if (game == null)
-                    return NotFound("Game Not Found");
+                    return NotFound($"VideoGame with Id {request.VideoGameId} not found.");
 
             var newCharacter = new Character
             {
