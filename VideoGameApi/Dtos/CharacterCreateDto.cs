@@ -1,9 +1,14 @@
-﻿namespace VideoGameApi.Dtos
+﻿using VideoGameApi.Models;
+using System.ComponentModel.DataAnnotations;
+
+namespace VideoGameApi.Dtos
 {
     public class CharacterCreateDto
     {
-            public string Name { get; set; } = string.Empty;
-            public string Role { get; set; } = string.Empty;
-            public int VideoGameId { get; set; }
+        [Required]
+        public string Name { get; set; } = string.Empty;
+        [Required]
+        public CharacterRole Role { get; set; }
+        public int VideoGameId { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using VideoGameApi.Data;
+using VideoGameApi.Dtos;
 using VideoGameApi.Models;
 
 namespace VideoGameApi.Controllers
@@ -15,7 +16,7 @@ namespace VideoGameApi.Controllers
         [HttpGet]
         public async Task<ActionResult<List<VideoGame>>> GetVideoGames()
         {
-            return Ok(await _context.VideoGames.ToListAsync());
+            return Ok(await _context.VideoGames.Include(g => g.Characters).ToListAsync());
         }
         [HttpGet]
         [Route("{id}")]
@@ -29,12 +30,18 @@ namespace VideoGameApi.Controllers
             return Ok(game);
         }
         [HttpPost]
-        public async Task<ActionResult> AddVideoGame(VideoGame newGame)
+        public async Task<ActionResult> AddVideoGame(VideoGameCreateUpdateDto request)
         {
-            if (newGame == null)
-            {
+            if (request == null)
                 return BadRequest();
-            }
+
+            var newGame = new VideoGame
+            {
+                Title = request.Title,
+                Developer = request.Developer,
+                Platform = request.Platform,
+                Publisher = request.Publisher
+            };
             _context.VideoGames.Add(newGame);
             await _context.SaveChangesAsync();
 
@@ -43,17 +50,17 @@ namespace VideoGameApi.Controllers
                 new { id = newGame.Id },
                 newGame);
         }
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVideoGame(int id ,VideoGame updatedGame)
+        public async Task<IActionResult> UpdateVideoGame(int id ,VideoGameCreateUpdateDto request)
         {
             var game = await _context.VideoGames.FindAsync(id);
             if (game is null)
                 return NotFound();
-            game.Title = updatedGame.Title;
-            game.Platform = updatedGame.Platform;
-            game.Developer = updatedGame.Developer;
-            game.Publisher = updatedGame.Publisher;
-
+            game.Title = request.Title;
+            game.Platform = request.Platform;
+            game.Developer = request.Developer;
+            game.Publisher = request.Publisher;
             await _context.SaveChangesAsync();
             return NoContent();
         }

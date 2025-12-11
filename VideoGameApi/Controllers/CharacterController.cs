@@ -15,31 +15,47 @@ namespace VideoGameApi.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<List<Character>>> GetCharacters()
+        public async Task<ActionResult<List<CharacterResponseDto>>> GetCharacters()
         {
-            var characters = await _context.Characters
-                //.Include(c => c.VideoGame)
+            var response = await _context.Characters
+                .Select(c => new CharacterResponseDto
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Role = c.Role.ToString(),
+                    VideoGameId = c.VideoGameId,
+                    VideoGameTitle = c.VideoGame!.Title ?? "N/A"
+                })
                 .ToListAsync();
-            return Ok(characters);
+            return Ok(response);
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<Character>> GetCharacterById(int id)
+        public async Task<ActionResult<CharacterResponseDto>> GetCharacterById(int id)
         {
-            var Character = await _context.Characters.FindAsync(id);
-            if (Character == null)
+            var character = await _context.Characters.FindAsync(id);
+            if (character == null)
                 return NotFound("Character Not Found");
-            return Ok(Character);
+
+            var dto = new CharacterResponseDto
+            {
+                Id = character.Id,
+                Name = character.Name,
+                Role = character.Role.ToString(),
+                VideoGameId = character.VideoGameId,
+                VideoGameTitle = character.VideoGame?.Title ?? "N/A"
+            };
+            return Ok(dto);
         }
 
 
-        [HttpGet("ByGame/{gameId}")]
-        public async Task<ActionResult<List<Character>>> GetCharactersByGameId(int gameId)
-        {
-            var characters = await _context.Characters
-                .Where(c => c.VideoGameId == gameId)
-                .ToListAsync();
-            return Ok(characters);
-        }
+        //[HttpGet("ByGame/{gameId}")]
+        //public async Task<ActionResult<List<Character>>> GetCharactersByGameId(int gameId)
+        //{
+        //    var characters = await _context.Characters
+        //        .Where(c => c.VideoGameId == gameId)
+        //        .ToListAsync();
+        //    return Ok(characters);
+        //}
 
         [HttpPost]
         public async Task<ActionResult> CreateCharacter(CharacterCreateDto request)
@@ -48,13 +64,10 @@ namespace VideoGameApi.Controllers
             if (game == null)
                     return NotFound("Game Not Found");
 
-            if (!Enum.TryParse<CharacterRole>(request.Role, true, out var parsedRole))
-                return BadRequest("Invalid role value.");
-
             var newCharacter = new Character
             {
                 Name = request.Name,
-                Role = parsedRole,
+                Role = request.Role,
                 VideoGameId = request.VideoGameId,
                 VideoGame = game,
 
