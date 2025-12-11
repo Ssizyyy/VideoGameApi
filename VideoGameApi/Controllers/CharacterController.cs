@@ -50,14 +50,24 @@ namespace VideoGameApi.Controllers
         }
 
 
-        //[HttpGet("ByGame/{gameId}")]
-        //public async Task<ActionResult<List<Character>>> GetCharactersByGameId(int gameId)
-        //{
-        //    var characters = await _context.Characters
-        //        .Where(c => c.VideoGameId == gameId)
-        //        .ToListAsync();
-        //    return Ok(characters);
-        //}
+        [HttpGet("ByGame/{gameId}")]
+        public async Task<ActionResult<List<CharacterResponseDto>>> GetCharactersByGameId(int gameId)
+        {
+            var characters = await _context.Characters
+                .Where(c => c.VideoGameId == gameId)
+                .Include(c => c.VideoGame)
+                .ToListAsync();
+            var responseDto = characters.Select(c => new CharacterResponseDto
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Role = c.Role.ToString(),
+                VideoGameId = c.VideoGameId,
+                VideoGameTitle = c.VideoGame?.Title ?? "N/A"
+            }).ToList();
+
+            return Ok(responseDto); 
+        }
 
         [HttpPost]
         public async Task<ActionResult> CreateCharacter(CharacterCreateDto request)

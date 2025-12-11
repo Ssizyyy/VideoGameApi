@@ -32,7 +32,8 @@ namespace VideoGameApi.Controllers
                         Id = c.Id,
                         Name = c.Name,
                         Role = c.Role.ToString(),
-                        VideoGameId = c.VideoGameId
+                        VideoGameId = c.VideoGameId,
+                        VideoGameTitle = g.Title
                     }).ToList()
                 }).ToListAsync();
             return Ok(games);
@@ -63,7 +64,8 @@ namespace VideoGameApi.Controllers
                     Id = c.Id,
                     Name = c.Name,
                     Role = c.Role.ToString(),
-                    VideoGameId = c.VideoGameId
+                    VideoGameId = c.VideoGameId,
+                    VideoGameTitle = game.Title
                 }).ToList()
             };
 
@@ -83,6 +85,10 @@ namespace VideoGameApi.Controllers
                 Publisher = request.Publisher
             };
 
+            _context.VideoGames.Add(newGame);
+            await _context.SaveChangesAsync();
+
+
             var requestDto = new VideoGameResponseDto
             {
                 Id = newGame.Id,
@@ -90,11 +96,9 @@ namespace VideoGameApi.Controllers
                 Developer = newGame.Developer,
                 Platform = newGame.Platform,
                 Publisher = newGame.Publisher,
-
+                Characters = new List<CharacterResponseDto>()
             };
 
-            _context.VideoGames.Add(newGame);
-            await _context.SaveChangesAsync();
 
             return CreatedAtAction(
                 nameof(GetVideoGameById),
