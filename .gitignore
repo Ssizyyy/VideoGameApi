@@ -17,7 +17,14 @@ bld
 [Bb]in
 [Oo]bj
 
+
+# نادیده گرفتن تنظیمات ویژوال استودیو
+.vs/
+*.user
+
 # Visual Studio temporary files
 .vs/
 /VideoGameApi/bin/
 /VideoGameApi/obj
+httpsraw.githubusercontent.comSsizy.txt
+

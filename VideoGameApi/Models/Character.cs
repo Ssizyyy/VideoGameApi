@@ -1,8 +1,5 @@
-﻿using System.Text.Json.Serialization;
-
-namespace VideoGameApi.Models
+﻿namespace VideoGameApi.Models
 {
-    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum CharacterRole
     {
         Protagonist,

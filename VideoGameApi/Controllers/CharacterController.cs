@@ -32,7 +32,9 @@ namespace VideoGameApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CharacterResponseDto>> GetCharacterById(int id)
         {
-            var character = await _context.Characters.FindAsync(id);
+            var character = await _context.Characters
+                .Include(c => c.VideoGame)
+                .FirstOrDefaultAsync(c => c.Id == id);
             if (character == null)
                 return NotFound("Character Not Found");
 
@@ -72,12 +74,24 @@ namespace VideoGameApi.Controllers
                 VideoGame = game,
 
             };
+
             _context.Characters.Add(newCharacter);
             await _context.SaveChangesAsync();
+
+            var responseDto = new CharacterResponseDto
+            {
+                Id = newCharacter.Id,
+                Name = newCharacter.Name,
+                Role = newCharacter.Role.ToString(),
+                VideoGameId = newCharacter.VideoGameId,
+                VideoGameTitle = game.Title ?? "N/A"
+            };
+
+
             return CreatedAtAction(
                 nameof(GetCharacterById),
                 new { id = newCharacter.Id },
-                newCharacter);
+                responseDto);
 
 
         }
