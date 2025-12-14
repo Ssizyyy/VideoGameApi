@@ -124,7 +124,7 @@ namespace VideoGameApi.Controllers
             var character = await _context.Characters.FindAsync(id);
             if (character is null)
                 return NotFound("There is no character with the given id");
-            _context.Characters.Remove(character);
+            character.IsDeleted = true;
             await _context.SaveChangesAsync();
             return NoContent();
         }

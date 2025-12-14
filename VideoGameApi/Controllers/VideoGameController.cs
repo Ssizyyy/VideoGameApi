@@ -125,7 +125,7 @@ namespace VideoGameApi.Controllers
             var game = await _context.VideoGames.FindAsync(id);
             if (game is null)
                 return NotFound();
-            _context.VideoGames.Remove(game);
+            game.IsDeleted = true;
             await _context.SaveChangesAsync();
             return NoContent();
         }

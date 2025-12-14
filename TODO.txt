@@ -1,4 +1,7 @@
-Add UD for Characters
+#Add UD for Characters
+#Updated the Hard Delete to Soft Delete for Character and VideoGame
+✅ جلوگیری از Soft Delete بازی وقتی Character فعال دارد
+✅ Restore (برگردوندن آیتم حذف‌شده)
 Add services layer
 
 قدم اول (تمیزکاری): پیاده‌سازی AutoMapper (چون ساده است و کد را تمیز می‌کند).

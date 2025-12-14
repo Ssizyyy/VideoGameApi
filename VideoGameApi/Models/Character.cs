@@ -24,5 +24,6 @@ namespace VideoGameApi.Models
 
         [JsonIgnore]
         public VideoGame? VideoGame { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

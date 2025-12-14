@@ -14,5 +14,7 @@ namespace VideoGameApi.Models
         public string? Developer { get; set; }
         public string? Publisher { get; set; }
         public List<Character> Characters { get; set; } = new List<Character>();
+        public bool IsDeleted { get; set; } = false;
+
     }
 }
