@@ -1,7 +1,10 @@
 #Add UD for Characters
 #Updated the Hard Delete to Soft Delete for Character and VideoGame
+#✅ پیاده‌سازی ساده‌تر Query Filter
+#✅ Auto-set CreatedAt / UpdatedAt
+#✅ Restore رکورد Soft Deleted
 ✅ جلوگیری از Soft Delete بازی وقتی Character فعال دارد
-✅ Restore (برگردوندن آیتم حذف‌شده)
+✅ Repository Pattern با BaseEntity
 Add services layer
 
 قدم اول (تمیزکاری): پیاده‌سازی AutoMapper (چون ساده است و کد را تمیز می‌کند).

@@ -12,6 +12,24 @@ namespace VideoGameApi.Data
             modelBuilder.Entity<Character>()
                 .HasQueryFilter(c => !c.IsDeleted);
         }
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Entity.CreatedAt = DateTime.UtcNow;
+                }
+
+                if (entry.State == EntityState.Modified)
+                {
+                    entry.Entity.UpdatedAt = DateTime.UtcNow;
+                }
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
         public DbSet<VideoGame> VideoGames { get; set; }
         public DbSet<Character> Characters { get; set; }
 

@@ -129,6 +129,20 @@ namespace VideoGameApi.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+        [HttpPost("{id}/restore")]
+        public async Task<IActionResult> RestoreVideoGame(int id)
+        {
+            var VideoGame = await _context.VideoGames
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(v=>v.Id == id);
+            if (VideoGame is null)
+                return NotFound("There is no VideoGame with the given ID");
+            if (!VideoGame.IsDeleted)
+                return BadRequest("Video Game with the given ID is not Deleted");
+            VideoGame.IsDeleted = false;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
 
     }
 }

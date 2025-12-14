@@ -128,7 +128,20 @@ namespace VideoGameApi.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
-
+        [HttpPost("{id}/restore")]
+        public async Task<IActionResult> RestoreCharacter (int id)
+        {
+            var character = await _context.Characters
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(c=>c.Id == id);
+            if (character is null)
+                return NotFound("There is no Character with the given ID");
+            if (!character.IsDeleted)
+                return BadRequest("Character with the given ID is not Deleted");
+            character.IsDeleted = false;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
 
     }
 

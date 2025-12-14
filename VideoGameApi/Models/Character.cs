@@ -11,10 +11,8 @@ namespace VideoGameApi.Models
         SideCharacter,
         NPC
     }
-    public class Character
+    public class Character : BaseEntity
     {
-        public int Id { get; set; }
-
         [Required]
         [MaxLength(100)]
         public string Name { get; set; } = string.Empty;
@@ -24,6 +22,5 @@ namespace VideoGameApi.Models
 
         [JsonIgnore]
         public VideoGame? VideoGame { get; set; }
-        public bool IsDeleted { get; set; } = false;
     }
 }
