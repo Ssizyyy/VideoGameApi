@@ -24,7 +24,7 @@ builder.Services.AddControllers()
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IVideoGameService, VideoGameService>();
-
+builder.Services.AddScoped<ICharacterService, CharacterService>();
 
 var app = builder.Build();
 

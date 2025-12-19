@@ -10,5 +10,7 @@ namespace VideoGameApi.Repositories
         Task AddAsync(T entity);
         void Update(T entity);
         void SoftDelete(T entity);
+        Task<T?> GetByIdIncludingDeletedAsync(int id);
+        void Restore(T entity);
     }
 }

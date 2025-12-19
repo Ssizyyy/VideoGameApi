@@ -56,5 +56,14 @@ namespace VideoGameApi.Repositories
             entity.IsDeleted = true;
             Update(entity);
         }
+        public async Task<T?> GetByIdIncludingDeletedAsync(int id)
+        {
+            return await _dbSet.IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Id == id);
+        }
+        public void Restore(T entity)
+        {
+            entity.IsDeleted = false;
+            Update(entity);
+        }
     }
 }

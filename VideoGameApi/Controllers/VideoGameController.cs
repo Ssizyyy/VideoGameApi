@@ -57,24 +57,36 @@ namespace VideoGameApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVideoGame (int id)
         {
-            var game = await _videoGameService.GetGameByIdAsync(id);
-            await _videoGameService.SoftDeleteGameAsync(id);
+            var existingGame = await _videoGameService.GetGameByIdAsync(id);
+            if(existingGame == null) return NotFound();
+            try
+            {
+                await _videoGameService.SoftDeleteGameAsync(id);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
             return NoContent();
         }
-        //[HttpPost("{id}/restore")]
-        //public async Task<IActionResult> RestoreVideoGame(int id)
-        //{
-        //    var VideoGame = await _context.VideoGames
-        //        .IgnoreQueryFilters()
-        //        .FirstOrDefaultAsync(v=>v.Id == id);
-        //    if (VideoGame is null)
-        //        return NotFound("There is no VideoGame with the given ID");
-        //    if (!VideoGame.IsDeleted)
-        //        return BadRequest("Video Game with the given ID is not Deleted");
-        //    VideoGame.IsDeleted = false;
-        //    await _context.SaveChangesAsync();
-        //    return NoContent();
-        //}
+        [HttpPost("{id}/restore")]
+        public async Task<IActionResult> RestoreVideoGame(int id)
+        {
+            try
+            {
+                await _videoGameService.RestoreGameAsync(id);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch(InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }
