@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
-using VideoGameApi.Data;
 using System.Text.Json.Serialization;
+using VideoGameApi.Data;
+using VideoGameApi.Repositories;
+using VideoGameApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,10 @@ builder.Services.AddControllers()
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IVideoGameService, VideoGameService>();
+
 
 var app = builder.Build();
 

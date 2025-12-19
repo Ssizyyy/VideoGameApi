@@ -1,148 +1,80 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using VideoGameApi.Data;
 using VideoGameApi.Dtos;
 using VideoGameApi.Models;
+using VideoGameApi.Services;
 
 namespace VideoGameApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VideoGameController(VideoGameDbContext context) : ControllerBase
+    public class VideoGameController(IVideoGameService videoGameService) : ControllerBase
     {
-        private readonly VideoGameDbContext _context = context;
+        private readonly IVideoGameService _videoGameService = videoGameService;
 
 
         [HttpGet]
-        public async Task<ActionResult<List<VideoGame>>> GetVideoGames()
+        public async Task<ActionResult<List<VideoGameResponseDto>>> GetVideoGames()
         {
-            var games = await _context.VideoGames
-                .Include(g => g.Characters)
-                .Select(g => new VideoGameResponseDto
-                {
-                    Id = g.Id,
-                    Title = g.Title,
-                    Developer = g.Developer,
-                    Platform = g.Platform,
-                    Publisher = g.Publisher,
-                    Characters = g.Characters.Select(c => new CharacterResponseDto
-                    {
-                        Id = c.Id,
-                        Name = c.Name,
-                        Role = c.Role.ToString(),
-                        VideoGameId = c.VideoGameId,
-                        VideoGameTitle = g.Title
-                    }).ToList()
-                }).ToListAsync();
+            var games = await _videoGameService.GetAllGamesAsync();
             return Ok(games);
         }
 
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<VideoGame>> GetVideoGameById(int id)
+        public async Task<ActionResult<VideoGameResponseDto>> GetVideoGameById(int id)
         {
-            var game = await _context.VideoGames
-                .Include(g=>g.Characters)
-                .FirstOrDefaultAsync(g=> g.Id == id);
-            if (game is null)
-            {
-                return NotFound();
-            }
-
-            var responseDto = new VideoGameResponseDto
-            {
-                Id = game.Id,
-                Title = game.Title,
-                Developer = game.Developer,
-                Platform = game.Platform,
-                Publisher = game.Publisher,
-                Characters = game.Characters.Select(c => new CharacterResponseDto
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Role = c.Role.ToString(),
-                    VideoGameId = c.VideoGameId,
-                    VideoGameTitle = game.Title
-                }).ToList()
-            };
-
-            return Ok(responseDto);
+            var game = await _videoGameService.GetGameByIdAsync(id);
+            if (game == null) return NotFound();
+            return Ok(game);
         }
         [HttpPost]
         public async Task<ActionResult> AddVideoGame(VideoGameCreateUpdateDto request)
         {
             if (request == null)
                 return BadRequest();
-
-            var newGame = new VideoGame
-            {
-                Title = request.Title,
-                Developer = request.Developer,
-                Platform = request.Platform,
-                Publisher = request.Publisher
-            };
-
-            _context.VideoGames.Add(newGame);
-            await _context.SaveChangesAsync();
-
-
-            var requestDto = new VideoGameResponseDto
-            {
-                Id = newGame.Id,
-                Title = newGame.Title,
-                Developer = newGame.Developer,
-                Platform = newGame.Platform,
-                Publisher = newGame.Publisher,
-                Characters = new List<CharacterResponseDto>()
-            };
-
-
+            var createdGame = await _videoGameService.CreateGameAsync(request);
             return CreatedAtAction(
                 nameof(GetVideoGameById),
-                new { id = newGame.Id },
-                requestDto);
+                new { id = createdGame.Id },
+                createdGame);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateVideoGame(int id ,VideoGameCreateUpdateDto request)
         {
-            var game = await _context.VideoGames.FindAsync(id);
-            if (game is null)
-                return NotFound();
-            game.Title = request.Title;
-            game.Platform = request.Platform;
-            game.Developer = request.Developer;
-            game.Publisher = request.Publisher;
-            await _context.SaveChangesAsync();
+            var existingGame = await _videoGameService.GetGameByIdAsync(id);
+            if (existingGame == null) return NotFound();
+
+            await _videoGameService.UpdateGameAsync(id, request);
             return NoContent();
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVideoGame (int id)
         {
-            var game = await _context.VideoGames.FindAsync(id);
-            if (game is null)
-                return NotFound();
-            game.IsDeleted = true;
-            await _context.SaveChangesAsync();
+            var game = await _videoGameService.GetGameByIdAsync(id);
+            await _videoGameService.SoftDeleteGameAsync(id);
             return NoContent();
         }
-        [HttpPost("{id}/restore")]
-        public async Task<IActionResult> RestoreVideoGame(int id)
-        {
-            var VideoGame = await _context.VideoGames
-                .IgnoreQueryFilters()
-                .FirstOrDefaultAsync(v=>v.Id == id);
-            if (VideoGame is null)
-                return NotFound("There is no VideoGame with the given ID");
-            if (!VideoGame.IsDeleted)
-                return BadRequest("Video Game with the given ID is not Deleted");
-            VideoGame.IsDeleted = false;
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
+        //[HttpPost("{id}/restore")]
+        //public async Task<IActionResult> RestoreVideoGame(int id)
+        //{
+        //    var VideoGame = await _context.VideoGames
+        //        .IgnoreQueryFilters()
+        //        .FirstOrDefaultAsync(v=>v.Id == id);
+        //    if (VideoGame is null)
+        //        return NotFound("There is no VideoGame with the given ID");
+        //    if (!VideoGame.IsDeleted)
+        //        return BadRequest("Video Game with the given ID is not Deleted");
+        //    VideoGame.IsDeleted = false;
+        //    await _context.SaveChangesAsync();
+        //    return NoContent();
+        //}
 
     }
 }
