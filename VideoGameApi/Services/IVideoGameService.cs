@@ -9,5 +9,6 @@ namespace VideoGameApi.Services
         Task<VideoGameResponseDto> CreateGameAsync(VideoGameCreateUpdateDto request);
         Task UpdateGameAsync(int id, VideoGameCreateUpdateDto request);
         Task SoftDeleteGameAsync(int id);
+        Task RestoreGameAsync(int id);
     }
 }

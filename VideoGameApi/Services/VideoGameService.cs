@@ -101,5 +101,19 @@ namespace VideoGameApi.Services
             _gameRepo.SoftDelete(game);
             await _dbContext.SaveChangesAsync();
         }
+        public async Task RestoreGameAsync(int id)
+        {
+            var deletedGame = await _gameRepo.GetByIdIncludingDeletedAsync(id);
+            if (deletedGame == null)
+            {
+                throw new KeyNotFoundException($"No deleted game found with ID {id}");
+            }
+            if (!deletedGame.IsDeleted)
+            {
+                throw new InvalidOperationException($"Game with ID {id} is not deleted.");
+            }
+            _gameRepo.Restore(deletedGame);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }
