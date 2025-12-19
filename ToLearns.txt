@@ -1,0 +1,48 @@
+گام ۲: لایه Domain (هسته مطلق)
+اینجا جایی است که قوانین اصلی برنامه شما زندگی می‌کنند. هیچ وابستگی به دیتابیس، فریم‌ورک‌ها یا UI نباید داشته باشد.
+
+Entities: کلاس‌های اصلی دیتابیس (مثلاً Product, User, Order).
+Value Objects: اشیایی که هویت مستقل ندارند (مثلاً Address, Money).
+Enums: مقادیر ثابت.
+Exceptions: خطاهای اختصاصی دامنه (مثلاً InsufficientFundsException).
+Domain Events: اگر از رویکرد DDD استفاده می‌کنید.
+
+
+گام ۳: لایه Application (مغز متفکر)
+این لایه وظیفه هماهنگی کارها را دارد. اینجا مشخص می‌کنید که برنامه “چه کاری” انجام می‌دهد.
+
+Interfaces: تعریف اینترفیس‌ها برای لایه Infrastructure (مثلاً IProductRepository, IEmailService). توجه کنید: پیاده‌سازی در این لایه نیست، فقط تعریف است.
+DTOs (Data Transfer Objects): مدل‌هایی برای انتقال داده به بیرون (مثلاً ProductDto). هرگز Entityها را مستقیم به UI نفرستید.
+Mapping: تنظیمات AutoMapper یا Mapster برای تبدیل Entity به DTO.
+CQRS (پیشنهاد اکید): استفاده از الگوی CQRS با کتابخانه MediatR.
+Commands: برای تغییر داده‌ها (Create, Update, Delete).
+Queries: برای خواندن داده‌ها (GetById, GetAll).
+Validation: استفاده از FluentValidation برای اعتبارسنجی ورودی‌ها.
+
+
+گام ۴: لایه Infrastructure (تأسیسات)
+این لایه به دنیای واقعی متصل می‌شود (دیتابیس، اینترنت، فایل).
+
+Persistence: نصب Entity Framework Core.
+پیاده‌سازی DbContext.
+پیاده‌سازی Repositoryها (مثلاً ProductRepository که از IProductRepository ارث‌بری می‌کند).
+Entity Configuration (تنظیمات Fluent API جداول).
+External Services: پیاده‌سازی سرویس‌هایی مثل ارسال ایمیل، درگاه پرداخت و…
+Dependency Injection: کلاسی برای معرفی سرویس‌های این لایه به کانتینر DI.
+
+
+گام ۵: لایه Presentation - API (دروازه ورودی)
+این لایه درخواست‌های HTTP را دریافت می‌کند و به لایه Application پاس می‌دهد.
+
+Controllers: یا استفاده از Minimal APIs.
+MediatR Integration: کنترلرها بسیار خلوت هستند. فقط یک Command یا Query می‌سازند و به Mediator می‌دهند.Global Exception Handling: مدیریت متمرکز خطاها.
+
+
+گام ۶: لایه Presentation - Blazor (فرانت‌اند)
+حالا نوبت به UI می‌رسد. پیشنهاد می‌شود از Blazor WebAssembly (برای جداسازی کامل) یا Blazor Web App (.NET 8 Auto mode) استفاده کنید.
+
+Service Proxies: سرویس‌هایی که با HttpClient به API شما درخواست می‌فرستند (مثلاً ProductService).
+View Models (اختیاری): اگر DTOها کافی نیستند، مدل‌های مخصوص View بسازید.
+State Management: برای پروژه‌های بزرگ، مدیریت وضعیت مهم است (کتابخانه Fluxor یا سرویس‌های Scoped ساده).
+Components: ساخت کامپوننت‌های قابل استفاده مجدد (Button, Input, Grid).
+Authentication: پیاده‌سازی JWT Authentication (در API تولید می‌شود و در Blazor در LocalStorage ذخیره می‌شود).

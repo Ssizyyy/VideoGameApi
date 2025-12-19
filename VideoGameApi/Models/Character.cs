@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 namespace VideoGameApi.Models
 {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum CharacterRole
     {
         Protagonist,
@@ -10,10 +11,8 @@ namespace VideoGameApi.Models
         SideCharacter,
         NPC
     }
-    public class Character
+    public class Character : BaseEntity
     {
-        public int Id { get; set; }
-
         [Required]
         [MaxLength(100)]
         public string Name { get; set; } = string.Empty;

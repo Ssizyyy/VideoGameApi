@@ -2,9 +2,8 @@
 
 namespace VideoGameApi.Models
 {
-    public class VideoGame
+    public class VideoGame : BaseEntity
     {
-        public int Id { get; set; }
 
         [Required]
         [MaxLength(100)]
@@ -14,5 +13,6 @@ namespace VideoGameApi.Models
         public string? Developer { get; set; }
         public string? Publisher { get; set; }
         public List<Character> Characters { get; set; } = new List<Character>();
+
     }
 }

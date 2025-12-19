@@ -11,6 +11,11 @@ namespace VideoGameApi.Dtos
         public CharacterRole Role { get; set; }
         public int VideoGameId { get; set; }
     }
+    public class CharacterUpdateDto
+    {
+        public string? Name { get; set; }
+        public CharacterRole? Role { get; set; }
+    }
     public class CharacterResponseDto
     {
         public int Id { get; set; }

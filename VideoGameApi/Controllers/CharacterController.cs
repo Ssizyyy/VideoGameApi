@@ -105,7 +105,43 @@ namespace VideoGameApi.Controllers
 
 
         }
-
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCharacter(int id , CharacterUpdateDto request)
+        {
+            var character = await _context.Characters.FindAsync(id);
+            if (character is null)
+                return NotFound("There is no character with the given id");
+            if (!string.IsNullOrEmpty(request.Name))
+                character.Name = request.Name;
+            if (request.Role.HasValue)
+                character.Role = request.Role.Value;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCharacter(int id)
+        {
+            var character = await _context.Characters.FindAsync(id);
+            if (character is null)
+                return NotFound("There is no character with the given id");
+            character.IsDeleted = true;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+        [HttpPost("{id}/restore")]
+        public async Task<IActionResult> RestoreCharacter (int id)
+        {
+            var character = await _context.Characters
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(c=>c.Id == id);
+            if (character is null)
+                return NotFound("There is no Character with the given ID");
+            if (!character.IsDeleted)
+                return BadRequest("Character with the given ID is not Deleted");
+            character.IsDeleted = false;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
 
     }
 
